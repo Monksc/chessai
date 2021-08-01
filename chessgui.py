@@ -141,8 +141,11 @@ class Board(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
+    #widget = Board(aiagents.createPVS(chess.WHITE, 2, 0.0))
+    widget = Board(None, aiagents.createPVS(chess.BLACK, 2, 3, 20.0, 0.0))
+
     #widget = Board(aiagents.createMiniMaxAIAgent(chess.WHITE, 2, 0.1))
-    widget = Board(None, aiagents.createMiniMaxAIAgent(chess.BLACK, 2, 0.1))
+    #widget = Board(None, aiagents.createMiniMaxAIAgent(chess.BLACK, 2, 0.1))
     # widget = Board(aiagents.createMiniMaxAIAgent(chess.WHITE, 2, 0.25), aiagents.createMiniMaxAIAgent(chess.BLACK, 2, 0.25))
     widget.resize(800, 600)
     widget.show()

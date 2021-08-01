@@ -1,6 +1,7 @@
 import chess
 import numpy as np
 import random
+import time
 import basicScore
 import aiagents
 
@@ -28,7 +29,12 @@ class Game:
         moves = board.legal_moves
         if moves.count() == 0:
             return False
+
+
+        start = time.time()
         move = agent(board, moves)
+        print("White" if board.turn else "Black", "Time: %.2fs" % (time.time() - start))
+
         self.board.san_and_push(move)
         return True
 
@@ -43,7 +49,10 @@ class Game:
             print(self)
             
             if self.board.is_checkmate():
-                return not(self.board.turn)
+                if self.board.turn:
+                    return -1
+                else:
+                    return 1
 
             #if self.board.turn:
             #    input()
@@ -61,9 +70,12 @@ class Game:
         #     return -1
 
 if __name__ == "__main__":
-    g = Game(aiagents.createMiniMaxAIAgent(chess.WHITE, 2, 0.1), aiagents.createMiniMaxAIAgent(chess.WHITE, 1, 0.5))
+    #g = Game(aiagents.createMiniMaxAIAgent(chess.WHITE, 2, 0.1), aiagents.createMiniMaxAIAgent(chess.WHITE, 1, 0.5))
+    g = Game(aiagents.createPVS(chess.WHITE, 1, 3, 15.0, 0.0), aiagents.createMiniMaxAIAgent(chess.BLACK, 2, 1.0))
+    #g = Game(aiagents.createMiniMaxAIAgent(chess.WHITE, 2, 0.1), aiagents.createPVS(chess.BLACK, 2, 3, 5.0, 0.0))
     #g = Game(aiagents.createMiniMaxAIAgent(chess.WHITE, 2, 0.0), aiagents.bestScore(chess.BLACK, 1.0))
     index = g.playGame()
     winner = ["BLACK WINS!!!", "TIE!!!", "WHITE WINS!!!"][index+1]
     print(winner)
+
 
